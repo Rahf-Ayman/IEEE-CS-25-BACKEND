@@ -6,6 +6,6 @@ select *
 from city
 where id = 1661;
 
--- problem 2
+-- problem 3
 select city , state
 from station ;
