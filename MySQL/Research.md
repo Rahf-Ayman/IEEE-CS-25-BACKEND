@@ -1,6 +1,6 @@
 ## MySQL Research
 
-> **What is a Database and why does it exist?**
+ **What is a Database and why does it exist?**
 > 
 > A database is an organized collection of data that is stored and managed electronically.  
 > It allows users to efficiently store, retrieve, update, and manage data.
@@ -14,12 +14,12 @@
 > - **Scalability** – They can handle large volumes of data and grow with application needs.
 > - **Data Relationships** – With relational databases, data can be structured in a way that prevents redundancy and maintains relationships.
 
-> **What is SQL?**
+ **What is SQL?**
 > 
 > SQL (Structured Query Language) is a programming language used to store, manage,  
 > and manipulate data in relational databases.
 
-> **What are the 5 most famous databases in the world now, and why?**
+ **What are the 5 most famous databases in the world now, and why?**
 > 
 > - **Oracle Database** – Oracle Database is renowned for its robustness and scalability,  
 >   making it a preferred choice for large enterprises handling extensive and complex data operations.
