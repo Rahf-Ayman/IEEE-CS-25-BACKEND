@@ -58,11 +58,52 @@
  - **Kebab Case**: Kebab case is similar to snake case, but you use a hyphen (-) instead of an underscore (_) to separate the words. <code>first-name</code>
  - **Pascal Case**: names in pascal case start with a capital letter. In case of the names with multiple words, all words will start with capital letters. <code>FirstName</code> 
 
+### Primary keys vs Unique keys.
+  The primary key does not accept any duplicate and NULL values , but Uniqe key does not accept any duplicate only and accept only one NULL value for the column.
+
+### MySQL Constraints
+ - <code>NOT NULL</code> -> Ensures that a column cannot have a NULL value.
+ - <code>UNIQUE</code> -> Ensures that all values in a column are different.
+ - <code>PRIMARY KEY</code> -> A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table.
+ - <code>FOREIGN KEY</code> -> Prevents actions that would destroy links between tables.
+ - <code>CHECK</code> -> Ensures that the values in a column satisfies a specific condition.
+ - <code>DEFAULT</code> -> Sets a default value for a column if no value is specified.
+ - <code>CREATE INDEX</code> -> Used to create and retrieve data from the database very quickly.
+
+### Indexing in MySQL.
+  Indexes are used to find rows with specific column values quickly. Without an index, MySQL must begin with the first row and then read through the entire table to find the relevant rows. The larger the table, the more this costs.
+  - **Simple Index** : A simple index is a basic type of index where the values inserted into the column, containing this index, are searched easily. In such case, the column can contain duplicate values or NULL.
+  - **Unique Index**: A Unique index does not allow any duplicate values to be inserted into a table column (where the index is defined on).It can be added to single or multiple columns of a table. If it is added to a single column, the values of that column must be unique. But if it is added to multiple columns, the combination of values in these columns must be unique.
+  - **Primary Key Index**: Primary Key Index is an extension of unique index, as the primary key column must always contain unique values and these values must not be NULL. Primary key can be set to a single column of a database table, or multiple columns as well.
+  - **Fulltext Index**: In a database, sometimes you would have to search for a blob of text instead of a record. You can use fulltext index for it. As its name suggests, it is used to make the text searches in a table easier.
+  - **Descending Index**: The descending index is only available in MySQL versions after 8.0. It is simple index used to store data in a reverse order. Using this index, it is easy to search for the latest values inserted into the database table.
+
+### Difference between MySQL and Postgresql.
+| MySQL | Postgresql
+| :------- | :-------
+| MySQL is a purely relational database management system.| 	PostgreSQL is an object-relational database management system. 
+| MySQL has limited support of database features like views, triggers, and procedures. |PostgreSQL supports most advanced database features like materialized views, INSTEAD OF triggers, and stored procedures in multiple languages.
+| MySQL supports numeric, character, date and time, spatial, and JSON data types. | PostgreSQL supports all MySQL data types along with geometric, enumerated, network address, arrays, ranges, XML, hstore, and composite.
+| MySQL has B-tree and R-tree index support. | PostgreSQL supports multiple index types like expression indexes, partial indexes, and hash indexes along with trees.
+| MySQL has improved performance for high-frequency read operations. | PostgreSQL has improved performance for high-frequency write operations.
+
+ 
+
  ##### Resources
+  *task 2*
  - [w3schools](https://www.w3schools.com/mysql/mysql_rdbms.asp)
  - [freecodecamp](https://www.freecodecamp.org/news/programming-naming-conventions-explained/)
  - [unacademy](https://unacademy.com/content/cbse-class-11/difference-between/dbms-and-rdbms/#:~:text=the%20database%20structure.-,Answer%3A%20The%20main%20differences%20are%3A,it%20is%20supported%20by%20RDBMS)
  - [geeksforgeeks](https://www.geeksforgeeks.org/difference-between-rdbms-and-dbms/)
+
+ ---
+   *task 3*
+ - [geeksforgeeks](https://www.geeksforgeeks.org/difference-between-primary-key-and-unique-key/)
+ - [w3schools](https://www.w3schools.com/mysql/mysql_constraints.asp)
+ - [MySQL Decumentation](https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html#:~:text=Indexes%20are%20used%20to%20find,table%2C%20the%20more%20this%20costs.)
+ - [tutorialspoint](https://www.tutorialspoint.com/mysql/mysql-indexes.htm)
+ - [Amazon](https://aws.amazon.com/compare/the-difference-between-mysql-vs-postgresql/#:~:text=Summary%20of%20differences%3A%20PostgreSQL%20vs%20MySQL,-Category&text=MySQL%20is%20a%20purely%20relational%20database%20management%20system.,object%2Drelational%20database%20management%20system.&text=MySQL%20has%20limited%20support%20of,views%2C%20triggers%2C%20and%20procedures.)
+
 
 
 
