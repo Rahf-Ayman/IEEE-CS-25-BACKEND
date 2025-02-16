@@ -87,8 +87,29 @@
 | MySQL has B-tree and R-tree index support. | PostgreSQL supports multiple index types like expression indexes, partial indexes, and hash indexes along with trees.
 | MySQL has improved performance for high-frequency read operations. | PostgreSQL has improved performance for high-frequency write operations.
 
- 
+### Relations
+1. **One-to-One Relationship**
+   - Definition: Each record in Table A is associated with one and only one record in Table B, and vice versa.
+   - Setup: Include a foreign key in one of the tables that references the primary key of the other table.
+1. **One-to-One Relationship** 
+   - Definition: Each record in Table A can be associated with multiple records in Table B, but each record in Table B is associated with only one record in Table A.
+   - Setup: Include a foreign key in the "many" side table (Table B) that references the primary key of the "one" side table (Table A).
+1. **Many-to-Many Relationship** 
+   - Definition: Each record in Table A can be associated with multiple records in Table B, and vice versa.
+   - Setup: Create an intermediate table (also known as a junction or linking table) that contains foreign keys referencing both related tables.  
 
+### Write-ahead logging.
+Write-Ahead Logging (WAL) is a standard technique in databases to ensure data integrity and durability. The core idea is simple: before any changes are applied to the actual database, the changes are first written to a log. This guarantees that even if a system crash occurs, the database can be recovered by replaying the log. 
+
+### What are normalization and denormalization?
+| Normalization | Denormalization
+| :------- | :-------
+|In normalization, Non-redundancy and consistency data are stored in set schema.| In denormalization, data are combined to execute the query quickly. 
+|In normalization, Data redundancy and inconsistency is reduced. |In denormalization, redundancy is added for quick execution of queries.
+|Data integrity is maintained in normalization.| Data integrity is not maintained in denormalization.
+| In normalization, redundancy is reduced or eliminated. |In denormalization, redundancy is added instead of reduction or elimination of redundancy.
+| Number of tables in normalization is increased.| Denormalization, Number of tables in decreased.
+ 
  ##### Resources
   *task 2*
  - [w3schools](https://www.w3schools.com/mysql/mysql_rdbms.asp)
@@ -103,6 +124,12 @@
  - [MySQL Decumentation](https://dev.mysql.com/doc/refman/8.4/en/mysql-indexes.html#:~:text=Indexes%20are%20used%20to%20find,table%2C%20the%20more%20this%20costs.)
  - [tutorialspoint](https://www.tutorialspoint.com/mysql/mysql-indexes.htm)
  - [Amazon](https://aws.amazon.com/compare/the-difference-between-mysql-vs-postgresql/#:~:text=Summary%20of%20differences%3A%20PostgreSQL%20vs%20MySQL,-Category&text=MySQL%20is%20a%20purely%20relational%20database%20management%20system.,object%2Drelational%20database%20management%20system.&text=MySQL%20has%20limited%20support%20of,views%2C%20triggers%2C%20and%20procedures.)
+
+ ---
+ *task 4*
+ - [geeksforgeeks_normalization](https://www.geeksforgeeks.org/difference-between-normalization-and-denormalization/)
+ - [geeksforgeeks_Relationship](https://www.geeksforgeeks.org/relationships-in-sql-one-to-one-one-to-many-many-to-many/)
+- [Bytebase](https://www.bytebase.com/blog/write-ahead-logging/)
 
 
 
