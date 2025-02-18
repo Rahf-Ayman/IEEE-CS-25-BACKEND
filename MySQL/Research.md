@@ -109,6 +109,32 @@ Write-Ahead Logging (WAL) is a standard technique in databases to ensure data in
 |Data integrity is maintained in normalization.| Data integrity is not maintained in denormalization.
 | In normalization, redundancy is reduced or eliminated. |In denormalization, redundancy is added instead of reduction or elimination of redundancy.
 | Number of tables in normalization is increased.| Denormalization, Number of tables in decreased.
+
+### Multi-version concurrency Control
+Multi-Version Concurrency Control is a technology,
+utilized to enhance databases by resolving concurrency problems and also data locking by preserving older database versions. 
+When many tasks attempt to update the same piece of data simultaneously, MVCC causes a conflict and necessitates a retry from one or more of the processes.
+Types:
+- **Timestamp-based MVCC**: The data visibility to transactions is defined by the unique timestamp assigned to each transaction that creates a new version of a record.
+- **Hybrid MVCC**: This coordinates data flexibility and performance by combining two or more MVCC approaches.
+- **History-based MVCC**: This Keeps track of every modification made to a record, making transaction rollbacks simple.
+
+### Trigger
+A trigger is a stored procedure in a database that automatically invokes whenever a special event in the database occurs. By using SQL triggers, developers can automate tasks, ensure data consistency, and keep accurate records of database activities. For example, a trigger can be invoked when a row is inserted into a specified table or when specific table columns are updated.
+**Key Features of SQL Triggers**:
+- **Automatic Execution**: Triggers fire automatically when the defined event occurs (e.g., INSERT, UPDATE, DELETE).
+- **Event-Driven**: Triggers are tied to specific events that take place within the database.
+- **Table Association**: A trigger is linked to a specific table or view, and operates whenever changes are made to the table’s data.
+
+### How can you take the backup of a database?
+steps:
+1. Open Mysql.
+2. Select your database from the left panel.
+3. Click "Export" from the top menu.
+4. Choose Export Method
+5. click "start export"
+the backup file (.sql) will be downloaded.
+
  
  ##### Resources
   *task 2*
@@ -130,6 +156,12 @@ Write-Ahead Logging (WAL) is a standard technique in databases to ensure data in
  - [geeksforgeeks_normalization](https://www.geeksforgeeks.org/difference-between-normalization-and-denormalization/)
  - [geeksforgeeks_Relationship](https://www.geeksforgeeks.org/relationships-in-sql-one-to-one-one-to-many-many-to-many/)
 - [Bytebase](https://www.bytebase.com/blog/write-ahead-logging/)
+
+---
+*task 5*
+- [geeksforgeeks_MVCC](https://www.geeksforgeeks.org/what-is-multi-version-concurrency-control-mvcc-in-dbms/)
+- [geeksforgeeks_trigger](https://www.geeksforgeeks.org/sql-trigger-student-database/)
+
 
 
 
