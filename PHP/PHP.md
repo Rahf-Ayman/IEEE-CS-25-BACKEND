@@ -100,3 +100,5 @@ Upon working with collections, it needs the usage of the count() function. | It 
     - [GeeksforGeeks_scriptOrProg](https://www.geeksforgeeks.org/whats-the-difference-between-scripting-and-programming-languages/)
     - [baeldung](https://www.baeldung.com/cs/statically-vs-dynamically-typed-languages)
     - [medium](https://medium.com/@tesfaygidey21/pass-by-value-vs-pass-by-reference-navigating-the-essence-of-function-parameterization-in-c-4d9fe34896d7)
+- *task 3*
+    - [GeeksforGeeks_for&foreach](https://www.geeksforgeeks.org/what-is-the-difference-between-for-and-foreach-loop-in-php/)
