@@ -90,6 +90,75 @@ Good performance. | Better performance.
 The stop condition is specified easily. | The stop condition has to be explicitly specified.
 Upon working with collections, it needs the usage of the count() function. | It can simply work without the usage of the count() method. 
 
+### Sessions vs. Cookies.
+Cookies | Sessions
+|:------- |:-------
+Stored on the client side (browser). | Stored on the server side.
+Less secure, as it is exposed to the client. | More secure, as data is stored on the server.
+Faster as data is stored on the client. | Slightly slower as each request requires server processing.
+Limited to 4KB per cookie. | Can store large amounts of data.
+Can be set manually (maxAge, expires). | Expires automatically after inactivity or when explicitly destroyed.
+Often used for storing authentication tokens like JWT. | Commonly used for session-based authentication.
+
+### Error Handling in PHP.
+Error handling in PHP is simple. An error message with filename, line number and a message describing the error is sent to the browser.
+
+Ways to handle PHP Errors:  
+- Using die() method
+- Custom Error Handling
+
+Basic error handling: Using die() function The die() function print a message and exit from current script.
+ ```php
+        <?php
+ 
+// PHP code to check errors
+ 
+// If file is not present 
+// then exit from script
+if( !file_exists("geeks.txt") ) {
+    die("File is not present");
+}
+ 
+// If file is present
+// then continue
+else {
+    $file = fopen("geeks.txt", "w");
+}
+?>
+ ```
+ Custom Error handling: Creating a custom error handler in PHP is quite simple. Create a function that can be called when a error has been occurred in PHP.
+ ```php
+ <?php
+ 
+// Creates my error function which prints message
+//to user
+function myerror($error_no, $error_msg) {
+    echo "Error: [$error_no] $error_msg ";
+    echo "\n Now Script will end";
+     
+    // When error occurred script has to be stopped
+    die();
+} 
+ 
+// Setting set_error_handler
+set_error_handler("myerror");
+ 
+$a = 10;
+$b = 0;
+ 
+// This will generate error
+echo($a / $b);;
+?>
+ ```
+
+### How PHP Executes Code.
+
+In PHP, code execution is linear, and the compiling is carried out as well as the executing in cycles per line of a script. Yet, to enhance this flow, PHP uses caching such as opcode caching, which is the set of compiled byte codes that are necessary to run the matter faster in following requests.
+
+Components of Execution Flow:
+
+- Opcode Caching: OPcache helps to optimize PHP execution flow by storing precompiled code. If opcode caching is used, it becomes possible to work with the script loading time that has been reduced by several times.
+- Garbage Collection: Most of PHP’s memory management is based on garbage collection, a form of memory recycling necessary for effective handling of big programs. 
 
 ##### Resources
 - *task 1*
@@ -102,3 +171,8 @@ Upon working with collections, it needs the usage of the count() function. | It 
     - [medium](https://medium.com/@tesfaygidey21/pass-by-value-vs-pass-by-reference-navigating-the-essence-of-function-parameterization-in-c-4d9fe34896d7)
 - *task 3*
     - [GeeksforGeeks_for&foreach](https://www.geeksforgeeks.org/what-is-the-difference-between-for-and-foreach-loop-in-php/)
+- *task 4*
+    - [GeeksforGeeks_cookies](https://www.geeksforgeeks.org/difference-between-session-and-cookies/)
+    - [GeeksforGeeks_error](https://www.geeksforgeeks.org/error-handling-in-php/)
+    - [Medium](https://medium.com/@shivanisingh16012004/understanding-php-internals-how-php-executes-code-41576dbc4a7f#:~:text=In%20PHP%2C%20code%20execution%20is,matter%20faster%20in%20following%20requests.)    
+
