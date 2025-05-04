@@ -104,9 +104,106 @@ Advantages:
 1. we can use the backend’s own language to code all data access.
 1. It makes reference to a class (namely Person) that defines the attributes and business-related methods. Classes that deal with object-relational mappings are called Models. Those classes use as, a template, a class from the ORM’s library of model classes. That way, it inherits all methods needed to create, retrieve, update, and delete from the database.
 
+### Defining relationships in Eloquent models
+Eloquent relationships are defined as methods on your Eloquent model classes. Since, like Eloquent models themselves, relationships also serve as powerful query builders, defining relationships as methods provides powerful method chaining and querying capabilities. 
+
+1. **One To One**
+- A one-to-one relationship is a very basic relation. For example, a User model might be associated with one Phone. To define this relationship, we place a phone method on the User model. The phone method should call the hasOne method and return its result:
+```PHP
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * Get the phone record associated with the user.
+     */
+    public function phone()
+    {
+        return $this->hasOne('App\Phone');
+    }
+}
+```
+2. **One To Many**:
+- A "one-to-many" relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
+```PHP
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Post extends Model
+{
+    /**
+     * Get the comments for the blog post.
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+}
+```
+3. **Many To Many**:
+- Many-to-many relations are slightly more complicated than hasOne and hasMany relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: users, roles, and role_user. The role_user table is derived from the alphabetical order of the related model names, and contains the user_id and role_id columns.
+```PHP
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    /**
+     * The roles that belong to the user.
+     */
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+}
+```
+### Attaching, syncing, detaching related records
+1. **Attaching** :Adding Records to a Many-to-Many Relationship
+- The attach method is primarily used in many-to-many relationships to add records to the pivot table that connects two models.
+```PHP
+$role = Role::find(1);
+$user->roles()->attach($role->id);
+```
+
+2. **Detaching** :Removing Records from a Many-to-Many Relationship
+- the detach method allows we to remove records from a many-to-many relationship's pivot table:
+```PHP
+$role = Role::find(1);
+$user->roles()->detach($role->id);
+```
+3. **syncing** :Syncing Records in a Many-to-Many Relationship
+- The sync method is a powerful way to synchronize the records in a many-to-many relationship. It takes an array of related model IDs as its argument and ensures that the pivot table contains only those records. Any existing records not in the provided array will be removed:
+```PHP
+$roleIds = [1, 2, 3];
+$user->roles()->sync($roleIds);
+```
+### The N+1 query problem in Laravel
+The N+1 query problem occurs when an application makes one initial query to the database followed by an additional query for each result obtained from the first query. This typically happens in object-relational mapping (ORM) frameworks when dealing with relationships between models.
+
+```PHP
+$posts = Post::all(); // one query
+foreach ($posts as $post) {
+    $comments = $post->comments; // Additional query for each post
+}
+```
+
+
 #### Resourses
 - [Laravel-request](https://laravel.com/docs/12.x/lifecycle)
 - [Laravel-routing](https://laravel.com/docs/12.x/routing)
 - [Laravel-Facades](https://laravel.com/docs/12.x/facades)
 - [Laravel-Blade](https://laravel.com/docs/12.x/blade#rendering-inline-blade-templates)
 - [ORM](https://www.baeldung.com/cs/object-relational-mapping)
+- [Laravel-Eloquent-Relationships](https://laravel.com/docs/5.5/eloquent-relationships#one-to-one)
+- [Sync-Attach-Detach-in-Laravel](https://medium.com/@rajvir.ahmed.shuvo/understanding-sync-attach-and-detach-in-laravel-managing-relationships-with-eloquent-394a7cf7fabd)
+- [loadforge](https://loadforge.com/guides/optimizing-laravel-applications-by-detecting-n1-queries)
