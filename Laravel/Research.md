@@ -196,6 +196,92 @@ foreach ($posts as $post) {
     $comments = $post->comments; // Additional query for each post
 }
 ```
+### What is the XSRF or CSRF?
+**Cross-site scripting (XSS)**: allows an attacker to execute arbitrary JavaScript within the browser of a victim user. 
+
+**Cross-site request forgery (CSRF)**: allows an attacker to induce a victim user to perform actions that they do not intend to.
+
+The consequences of XSS vulnerabilities are generally more serious than for CSRF vulnerabilities:
+
+- CSRF often only applies to a subset of actions that a user is able to perform. Many applications implement CSRF defenses in general but overlook one or two actions that are left exposed. Conversely, a successful XSS exploit can normally induce a user to perform any action that the user is able to perform, regardless of the functionality in which the vulnerability arises.
+
+- CSRF can be described as a "one-way" vulnerability, in that while an attacker can induce the victim to issue an HTTP request, they cannot retrieve the response from that request. Conversely, XSS is "two-way", in that the attacker's injected script can issue arbitrary requests, read the responses, and exfiltrate data to an external domain of the attacker's choosing.
+
+### What is Livewire?
+Livewire is a full-stack framework in Laravel created by Caleb Porzio that makes it easy to create reactive interfaces without writing any Javascript, that’s right, no Javascript, all in PHP. This means developers can leverage the power of Laravel and Blade templates to build dynamic UIs, we can respond to user’s actions such as form submissions, scrolling, mouse movements, or button clicks, without reloading the page. This means that users can enjoy a smoother, more fluid experience when interacting with web applications built using Livewire like it was with other front-end frameworks.
+
+### Laravel Development Packages
+
+1.Laravel Debugbar:
+Debugbar displays all database queries, rendered templates, and passed parameters. It even lets you add custom messages for easy debugging. Spend less time guessing and more time building with Laravel Debugbar.
+```PHP
+    Debugbar::info($object);
+    Debugbar::error('Error!');
+    Debugbar::warning('Watch out…');
+    Debugbar::addMessage('Another message', 'mylabel')
+```
+2.Laravel User Verification
+The Laravel User Verification package simplifies user onboarding by handling email verification and validation. It offers flexibility to customize email templates, verification logic, and the user experience to perfectly fit your application’s needs.
+Plus, the package integrates seamlessly with Laravel’s authentication and notification systems, saving you development time and effort.
+```PHP
+    public function register(Request $request)
+    {
+       $this->validator($request->all())->validate();
+       $user = $this->create($request->all());
+       event(new Registered($user));
+       $this->guard()->login($user);
+       UserVerification::generate($user);
+       UserVerification::send($user, 'My Custom E-mail Subject');
+       return $this->registered($request, $user)
+           ?: redirect($this->redirectPath());
+    }
+```
+3.Socialite
+Laravel Socialite, developed by the Laravel team itself, offers a breeze-through solution. Users can log in with popular platforms like Facebook, Google, and Twitter.
+Socialite integrates seamlessly with Laravel’s authentication system and handles OAuth complexities under the hood. This frees you to focus on core features while leveraging secure social logins.
+```PHP
+    $user = Socialite::driver('github')->user();
+    // OAuth Two Providers
+    $token = $user->token;
+    $refreshToken = $user->refreshToken; // not always provided
+    $expiresIn = $user->expiresIn;
+    // All Providers
+    $user->getId();
+    $user->getName();
+    $user->getEmail();
+    $user->getAvatar();
+```
+4.Laravel Mix
+Laravel Mix, the go-to asset compilation tool for Laravel projects. This successor to Laravel Elixir offers a clean and powerful API for defining your build steps in a more effective way.
+Laravel Mix integrates seamlessly with Webpack, letting you leverage hot module replacement (HMR) and browser synchronization. See changes reflected instantly without manual reloads, saving you valuable development time.
+```PHP
+    mix.js('resources/assets/js/app.js', 'public/js')
+    .sass('resources/assets/sass/app.scss', 'public/css');
+```
+5.Eloquent-Sluggable
+Laravel Eloquent-Sluggable automates the process! This handy tool generates unique slugs based on your model attributes, creating clean and search-engine-friendly URLs for your Laravel application.
+
+Eloquent-Sluggable offers customization options for slug fields, separators, and update behavior. Plus, it provides hooks for handling special cases and integrating your own logic, ensuring your URLs are always optimized.
+```PHP
+    class Post extends Eloquent
+    {
+       use Sluggable;
+       protected $fillable = ['title'];
+       public function sluggable() {
+           return [
+               'slug' => [
+                   'source' => ['title']
+               ]
+           ];
+       }
+    }
+    $post = new Post([
+       'title' => 'My Awesome Blog Post',
+    ]);
+    // $post->slug is "my-awesome-blog-post
+```
+
+
 
 
 #### Resourses
@@ -207,3 +293,5 @@ foreach ($posts as $post) {
 - [Laravel-Eloquent-Relationships](https://laravel.com/docs/5.5/eloquent-relationships#one-to-one)
 - [Sync-Attach-Detach-in-Laravel](https://medium.com/@rajvir.ahmed.shuvo/understanding-sync-attach-and-detach-in-laravel-managing-relationships-with-eloquent-394a7cf7fabd)
 - [loadforge](https://loadforge.com/guides/optimizing-laravel-applications-by-detecting-n1-queries)
+- [XSS-CSRF](https://portswigger.net/web-security/csrf/xss-vs-csrf)
+- [Laravel-Package](https://www.cloudways.com/blog/best-laravel-packages/)
