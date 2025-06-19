@@ -280,8 +280,134 @@ Eloquent-Sluggable offers customization options for slug fields, separators, and
     ]);
     // $post->slug is "my-awesome-blog-post
 ```
+### Laravel Gates
+#### Writing Gates
+> Gates are a great way to learn the basics of Laravel's authorization features; however, when building robust Laravel applications you should consider using policies to organize your authorization rules.
 
+Gates are simply closures that determine if a user is authorized to perform a given action. Typically, gates are defined within the boot method of the App\Providers\AppServiceProvider class using the Gate facade. Gates always receive a user instance as their first argument and may optionally receive additional arguments such as a relevant Eloquent model.
 
+In this example, we'll define a gate to determine if a user can update a given App\Models\Post model. The gate will accomplish this by comparing the user's id against the user_id of the user that created the post:
+
+```PHP
+use App\Models\Post;
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    Gate::define('update-post', function (User $user, Post $post) {
+        return $user->id === $post->user_id;
+    });
+}
+```
+Like controllers, gates may also be defined using a class callback array:
+
+```PHP
+use App\Policies\PostPolicy;
+use Illuminate\Support\Facades\Gate;
+
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    Gate::define('update-post', [PostPolicy::class, 'update']);
+}
+```
+### Sanctum vs Passport
+#### Laravel Sanctum
+Laravel Sanctum, introduced in Laravel 7, is a simple authentication package designed primarily for single-page applications (SPAs), mobile applications, and token-based APIs. It offers a lightweight solution that focuses on the personal access token and cookie-based session authentication.
+
+Key Features of Laravel Sanctum:
+1. Personal Access Tokens : 
+    - Sanctum allows users to generate multiple API tokens for their account. Each token can be granted specific abilities (scopes), which govern what actions can be performed using the token.
+1. SPA Authentication
+    - Sanctum offers cookie-based authentication for single-page applications (SPAs) without using tokens. This method relies on the browser’s built-in session management, making it easier to integrate with Laravel’s default session-based authentication.
+
+1. Mobile Authentication
+   - For mobile applications, Sanctum’s API tokens can be used to authenticate users and protect routes, offering flexibility in securing mobile APIs.
+
+1. Easy Integration with Laravel
+
+    - Sanctum is extremely lightweight and easy to set up, integrating seamlessly with Laravel’s default authentication system. This allows for quick and straightforward token-based or session-based authentication.
+
+1. Token Abilities (Scopes)
+   - With Sanctum, each token can be assigned specific abilities, restricting its use to specific actions like creating, updating, or deleting resources.
+
+Advantages of Laravel Sanctum:
+- Simple and Lightweight: Sanctum is easy to implement and configure, making it an excellent choice for projects that require minimal overhead.
+- SPA-Friendly: Its built-in support for SPA authentication provides a seamless experience when building applications using frameworks like Vue.js, React, or Angular.
+- Flexible for Mobile Applications: Sanctum is versatile and supports mobile app authentication through API tokens.
+- Session-Based Authentication: For SPAs that don’t want to deal with token-based authentication, Sanctum’s cookie-based approach offers a solution similar to traditional session-based authentication.
+
+Disadvantages of Laravel Sanctum:
+
+- Limited OAuth2 Support: Sanctum does not provide full OAuth2 capabilities, making it unsuitable for applications requiring third-party integrations or delegated authorization.
+- Not Ideal for Full OAuth2-Based APIs: If your app needs robust API authorization using OAuth2 with advanced features like authorization codes, refresh tokens, and client credentials, Sanctum might not be the best fit. 
+
+#### Laravel Passport
+Laravel Passport is an OAuth2 server implementation that offers more advanced API authentication than Sanctum. Passport was created to provide an OAuth2 server for Laravel applications, making it an ideal choice for apps requiring third-party access, token revocation, refresh tokens, and more advanced authentication flows.
+Key Features of Laravel Passport
+1.Full OAuth2 Server
+    - Passport implements a complete OAuth2 server, offering support for various OAuth2 flows such as Authorization Code Grants, Client Credentials Grants, and Password Grants.
+1. Bearer Tokens
+    - Passport issues bearer tokens that are used to authenticate API requests. These tokens can be either long-lived or short-lived, depending on the flow.
+1. Refresh Tokens
+    - Passport supports issuing refresh tokens that allow users to obtain new access tokens without needing to re-authenticate.
+1. Authorization Code Grants
+    - This flow is widely used when an application wants to allow third-party access to its resources. It redirects users to the authorization server and returns an authorization code that can be exchanged for an access token.
+1. Client Credentials Grants
+    - This is useful when the API needs to authenticate machine-to-machine requests, such as when a backend service communicates with another API.
+1. Password Grants
+    - Passport also supports password grants, where the user’s credentials are directly sent to the server to obtain an access token.
+1. Token Revocation
+    - Passport provides built-in methods to revoke tokens, offering greater security by allowing users to invalidate tokens when needed.
+1. Scopes and Permissions
+    - With Passport, you can define scopes that limit the actions a token can perform. This is useful for restricting access to certain API endpoints based on user roles or permissions.
+
+Advantages of Laravel Passport
+- Full OAuth2 Support: Passport offers robust support for all OAuth2 flows, making it ideal for apps requiring complex authentication mechanisms.
+- Third-Party Access: Passport is perfect for applications that need to authorize third-party services to access user data, like integrating with external APIs.
+- Token Revocation: Built-in support for token revocation and refreshing allows for better security and flexibility.
+- Enterprise-Grade: Passport is the go-to choice for larger applications that require a more sophisticated and secure authentication method.
+
+Disadvantages of Laravel Passport
+- Complex Setup: Passport is more complicated to set up compared to Sanctum. It requires additional configurations such as setting up an OAuth2 server, managing client credentials, and handling token expiration.
+- Overhead for Small Projects: For smaller projects, Passport might introduce unnecessary overhead due to its advanced features and complex OAuth2 flows.
+- Not Ideal for SPAs: Passport was initially designed for full-fledged OAuth2 server use cases, making it more suited for API-based apps than simple SPAs that can benefit from Sanctum’s lightweight design.
+
+#### Passport or Sanctum?
+Before getting started, you may wish to determine if your application would be better served by Laravel Passport or Laravel Sanctum. If your application absolutely needs to support OAuth2, then you should use Laravel Passport.
+
+However, if you are attempting to authenticate a single-page application, mobile application, or issue API tokens, you should use Laravel Sanctum. Laravel Sanctum does not support OAuth2; however, it provides a much simpler API authentication development experience.
+
+### Guard vs middleware
+**Middleware: The Request Filters**
+
+Middleware in Laravel functions as a filter for HTTP requests entering your application. Think of middleware as a checkpoint through which every request must pass. Middleware can inspect and modify requests before they reach your controllers, and even modify responses before they are sent back to the client. Some common uses of middleware include:
+
+- Authentication: Ensuring users are authenticated before accessing specific routes.
+- Logging: Recording request and response data for auditing and debugging.
+- CORS Handling: Managing Cross-Origin Resource Sharing for APIs.
+Maintenance Mode: Allowing only specific IPs to access the application during maintenance.
+
+When to Use Middleware:
+
+Apply a filter or rule to all incoming requests or specific route groups.
+Perform global tasks like authentication checks, input validation, or request logging.
+Handle pre- and post-processing of HTTP requests.
+
+**Guards: The Authentication Gatekeepers**
+
+Guards are a fundamental part of Laravel’s authentication system. They define how users are authenticated for each request. Laravel supports several types of guards, such as session and token guards. Guards use drivers to authenticate users, whether through sessions or API tokens.
+
+When to Use Guards:
+- Define different authentication mechanisms for different parts of your application.
+- Separate web-based session authentication from API token-based authentication.
+- Customize user providers to support various models or data sources for user credentials.
 
 
 #### Resourses
@@ -295,3 +421,7 @@ Eloquent-Sluggable offers customization options for slug fields, separators, and
 - [loadforge](https://loadforge.com/guides/optimizing-laravel-applications-by-detecting-n1-queries)
 - [XSS-CSRF](https://portswigger.net/web-security/csrf/xss-vs-csrf)
 - [Laravel-Package](https://www.cloudways.com/blog/best-laravel-packages/)
+- [Laravel-passport-Sanctum](https://laravel.com/docs/12.x/passport#passport-or-sanctum)
+- [medium-passport-sanctum](https://medium.com/@chirag.dave/laravel-sanctum-vs-passport-choosing-the-right-authentication-for-your-app-4438c85bf900)
+- [Laravel-gates](https://laravel.com/docs/12.x/authorization)
+- [medium-middleware-guards](https://medium.com/@kesen.somar.99/understanding-middleware-guards-and-gates-in-laravel-e2084cabc945)
