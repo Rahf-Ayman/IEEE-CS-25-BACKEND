@@ -1,0 +1,13 @@
+.cont {
+    width: 75%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.cont button {
+    width: 30%;
+    height: 48px;
+    font-size: 24px;
+    
+}
